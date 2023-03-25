@@ -11,23 +11,11 @@ const io = socketIO(server, {
   },
   serverClient: true,
 });
-io.on("connection",()=>{
-  io.emit("broadCast", "hello everyone!");
-
+io.on("connection",(socket)=>{
+  console.log(socket.handshake.query)
+  console.log(socket.handshake.headers["authorization"])
 })
-io.of("/teachers").on("connection", (socket) => {
-  socket.on("teacherClient", (data) => {
-    console.log(data);
-  });
-  socket.emit("teacherServer", "hello techer! i am your server!");
-});
 
-io.of("/students").on("connection", (socket) => {
-  socket.on("studentClient", (data) => {
-    console.log(data);
-  });
-  socket.emit("studentServer", "hello student! i am your server");
-});
 server.listen(3000, (err, res) =>
   console.log("run on port " + "localhost:3000")
 );

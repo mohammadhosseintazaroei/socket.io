@@ -1,16 +1,15 @@
-const teachersSocket = io("http://localhost:3000/teachers");
-teachersSocket.on("connect", data => {
-  teachersSocket.emit("teacherClient", "message from teacher namespace!");
-  teachersSocket.on("teacherServer", data => {console.log(data)})
+const socket = io("http://localhost:3000/",{
+  query:{
+    field1:"value1",
+    field2:"value2",
+  },
+  transportOptions:{
+    polling:{
+      extraHeaders:{
+        Authorization: "Bearer <token>",
+      }
+    }
+  }
 })
-
-
-
-const studentsSocket = io("http://localhost:3000/students");
-studentsSocket.on("connect", data => {
-  studentsSocket.emit("studentClient", "message from students namespace!");
-  studentsSocket.on("studentServer", data => {console.log(data)})
-})
-const socket = io("http://localhost:3000/")
-socket.on("broadCast", data => {console.log(data)})
+socket.on("connect", data => {console.log(data)})
 
