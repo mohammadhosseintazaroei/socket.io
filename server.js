@@ -1,21 +1,33 @@
 const http = require("http");
-const webSocket = require("ws");
-const server = http.createServer();
-// const ws = new webSocket.Server({ server });
-const socketIO = require("socket.io")
-const io = socketIO(server,{
-  cors:{
-    origin: "*"
-  }
-})
+const express = require("express");
+const app = express();
+const server = http.createServer(app);
+app.use(express.static("./"));
 
-io.on("connection", (socket) => {
-  socket.on("welcome", (data) => {
+const socketIO = require("socket.io");
+const io = socketIO(server, {
+  cors: {
+    origin: "*",
+  },
+  serverClient: true,
+});
+io.on("connection",()=>{
+  io.emit("broadCast", "hello everyone!");
+
+})
+io.of("/teachers").on("connection", (socket) => {
+  socket.on("teacherClient", (data) => {
     console.log(data);
   });
-  socket.emit("welcome-client", "hello client!");
+  socket.emit("teacherServer", "hello techer! i am your server!");
 });
 
+io.of("/students").on("connection", (socket) => {
+  socket.on("studentClient", (data) => {
+    console.log(data);
+  });
+  socket.emit("studentServer", "hello student! i am your server");
+});
 server.listen(3000, (err, res) =>
   console.log("run on port " + "localhost:3000")
 );
