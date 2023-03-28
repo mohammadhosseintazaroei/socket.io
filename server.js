@@ -10,12 +10,17 @@ const io = socketIO(server, {
     origin: "*",
   },
 });
+
 io.on("connection", (socket) => {
   socket.on("clientMessage", (data) => {
     io.emit("serverMessage", data);
   });
+  socket.leave("ping")
+  socket.on("ping", (data) => {
+    console.log(data);
+  })
 });
 
 server.listen(3000, (err, res) =>
-  console.log("run on port " + "localhost:3000")
+  console.log("run on port " + "http://localhost:3000/")
 );
