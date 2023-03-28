@@ -15,6 +15,7 @@
         margin:auto auto;
         height:500px;
         width:500px;
+        overflow: auto;
       }
       p {
         border: 1px solid green;
@@ -35,9 +36,10 @@
   </head>
   <body>
     <div class="chatBox">
-      <input type="text" placeholder="typing..." id="text" />
-      <input type="button" value="send" id="sendBtn">
+
     </div>
+    <input type="text" placeholder="typing..." id="text" />
+    <input type="button" value="send" id="sendBtn">
     <script src="/socket.io/socket.io.js"></script>
     <script src="client.js"></script>
   </body>

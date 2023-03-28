@@ -9,12 +9,12 @@ const io = socketIO(server, {
   cors: {
     origin: "*",
   },
-  serverClient: true,
 });
-io.on("connection",(socket)=>{
-  console.log(socket.handshake.query)
-  console.log(socket.handshake.headers["authorization"])
-})
+io.on("connection", (socket) => {
+  socket.on("clientMessage", (data) => {
+    io.emit("serverMessage", data);
+  });
+});
 
 server.listen(3000, (err, res) =>
   console.log("run on port " + "localhost:3000")
