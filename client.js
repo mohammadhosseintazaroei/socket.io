@@ -16,18 +16,15 @@ function initializeChatBox() {
 initializeChatBox();
 const socket = io("http://localhost:3000/");
 socket.on("connect", (data) => {
-  // const sendBtn = document.getElementById("sendBtn");
-  // sendBtn.addEventListener("click", (e) => {
-  //   const textBoxt = document.getElementById("text");
-  //   const message = textBoxt.value;
-  //   if (!message) return alert("textbox cannot be empty");
-  //   socket.emit("clientMessage", message);
-  //   textBoxt.value = "";
-  // });
-  let count = 0;
-  setInterval(() => {
-    socket.volatile.emit("ping",++count)
-  },1000)
+  const sendBtn = document.getElementById("sendBtn");
+  sendBtn.addEventListener("click", (e) => {
+    const textBoxt = document.getElementById("text");
+    const message = textBoxt.value;
+    if (!message) return alert("textbox cannot be empty");
+    socket.emit("clientMessage", message);
+    textBoxt.value = "";
+  });
+
 });
 socket.on("serverMessage", (message) => {
   let localStorageValue = localStorage.getItem("messages")
